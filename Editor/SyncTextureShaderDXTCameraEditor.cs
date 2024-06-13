@@ -82,7 +82,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
             var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             var syncCameras = Object.FindObjectsByType<SyncTextureShaderDXTCamera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            var syncRenderersDict = syncRenderers.GroupBy(sr => sr.GetComponent<Renderer>().sharedMaterial.mainTexture).ToDictionary(g => g.Key, g => g.ToArray());
+            var syncRenderersDict = syncRenderers.GroupBy(sr => SyncTextureShaderDXTRendererMaterialInfo.Get(sr).Textures.First()).ToDictionary(g => g.Key, g => g.ToArray());
             
             var syncTextureShaderDXTRoot = SceneManager.GetActiveScene().GetRootGameObjects().FirstOrDefault(go => go.name == "SyncTextureShaderDXTRoot");
             if (syncTextureShaderDXTRoot == null)

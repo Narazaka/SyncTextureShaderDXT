@@ -9,7 +9,7 @@ using net.narazaka.vrchat.sync_texture;
 using VRC.SDKBase.Network;
 using UdonSharpEditor;
 
-namespace net.narazaka.vrchat.sync_texture_shaderdxt
+namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 {
     public class SyncTextureShaderDXTBuilder : IProcessSceneWithReport
     {
@@ -81,15 +81,15 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
                 var decompressResultMaterials = new List<Material>();
                 if (syncRenderersDict.TryGetValue(targetTexture, out var targetRenderers))
                 {
-                    var originals = targetRenderers.Select(tr => tr.GetComponent<Renderer>().sharedMaterial).Distinct().ToArray();
-                    var decompressResultMaterialMap = new Dictionary<Material, Material>();
+                    var originals = targetRenderers.Select(tr => SyncTextureShaderDXTRendererMaterialInfo.Get(tr)).Distinct().ToArray();
+                    var decompressResultMaterialMap = new Dictionary<SyncTextureShaderDXTRendererMaterialInfo, Material>();
                     foreach (var original in originals)
                     {
-                        var decompressResultMaterial = new Material(original)
+                        var decompressResultMaterial = new Material(original.Material)
                         {
-                            name = $"{baseName}_{original.GetInstanceID()}_decompress_result",
-                            mainTexture = decompressCRT,
+                            name = $"{baseName}_{original.Material.GetInstanceID()}_decompress_result",
                         };
+                        original.SetTextures(decompressResultMaterial, decompressCRT);
                         decompressResultMaterials.Add(decompressResultMaterial);
                         decompressResultMaterialMap[original] = decompressResultMaterial;
                     }
@@ -97,7 +97,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
                     {
                         targetRenderer.SyncTextureManager = syncTextureManager;
                         targetRenderer.Original = targetRenderer.GetComponent<Renderer>().sharedMaterial;
-                        targetRenderer.Received = decompressResultMaterialMap[targetRenderer.Original];
+                        targetRenderer.Received = decompressResultMaterialMap[SyncTextureShaderDXTRendererMaterialInfo.Get(targetRenderer)];
                     }
                 }
 

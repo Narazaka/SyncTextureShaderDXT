@@ -43,8 +43,5 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         {
             ReceivedTexture.Update();
         }
-
-        // editor
-        // “¯‚¶render texture‚ÌSyncTextureShaderDXTRenderer‚ð‚¢‚ê‚é
     }
 }

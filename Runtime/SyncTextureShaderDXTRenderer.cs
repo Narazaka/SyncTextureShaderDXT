@@ -1,4 +1,5 @@
 ﻿using net.narazaka.vrchat.sync_texture;
+using System.Collections.Generic;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -15,6 +16,8 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         public Material Original;
         [SerializeField]
         public Material Received;
+        [SerializeField]
+        public string[] TexturePropertyNames;
         [SerializeField, Tooltip("for debug")]
         public bool AlwaysReceivedMaterial;
 
@@ -43,9 +46,5 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
                 GetComponent<Renderer>().sharedMaterial = !AlwaysReceivedMaterial && IsRendered ? Original : Received;
             }
         }
-
-        // editor
-        // 同じrender textureでまとめてcustom render textureつくる
-
     }
 }

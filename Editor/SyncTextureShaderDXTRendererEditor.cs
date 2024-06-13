@@ -16,6 +16,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         SerializedProperty SyncTextureManager;
         SerializedProperty Original;
         SerializedProperty Received;
+        SerializedProperty TexturePropertyNames;
         SerializedProperty AlwaysReceivedMaterial;
 
         bool Foldout;
@@ -25,6 +26,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             SyncTextureManager = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.SyncTextureManager));
             Original = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.Original));
             Received = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.Received));
+            TexturePropertyNames = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.TexturePropertyNames));
             AlwaysReceivedMaterial = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.AlwaysReceivedMaterial));
         }
 
@@ -34,6 +36,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
             serializedObject.Update();
 
+            EditorGUILayout.PropertyField(TexturePropertyNames, new GUIContent(TexturePropertyNames.displayName + " (optional)"), true);
             EditorGUILayout.PropertyField(AlwaysReceivedMaterial, new GUIContent(AlwaysReceivedMaterial.displayName + " (for debug)"));
 
             Foldout = EditorGUILayout.Foldout(Foldout, "internal");
