@@ -19,7 +19,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             var syncTextureManager = Object.FindObjectsByType<SyncTextureManager>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).First();
             var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             var syncCameras = Object.FindObjectsByType<SyncTextureShaderDXTCamera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            var syncRenderersDict = syncRenderers.GroupBy(sr => sr.GetComponent<Renderer>().sharedMaterial.mainTexture).ToDictionary(g => g.Key, g => g.ToArray());
+            var syncRenderersDict = syncRenderers.GroupBy(sr => SyncTextureShaderDXTRendererMaterialInfo.Get(sr).Textures.First()).ToDictionary(g => g.Key, g => g.ToArray());
             var syncTextures = Object.FindObjectsByType<SyncTexture2D8>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
             foreach (var syncCamera in syncCameras)
