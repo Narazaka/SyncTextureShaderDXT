@@ -24,7 +24,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
             foreach (var syncCamera in syncCameras)
             {
-                var targetTexture = syncCamera.GetComponent<Camera>().targetTexture;
+                var targetTexture = syncCamera.SubjectTexture;
                 var baseName = syncCamera.GetInstanceID().ToString();
 
                 var sizedMaterial = new Material(Shader.Find("SyncTextureShaderDXT/IdentityCRTShader"))

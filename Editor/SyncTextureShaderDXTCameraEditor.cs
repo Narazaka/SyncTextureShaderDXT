@@ -17,9 +17,11 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         SerializedProperty SyncTexture;
         SerializedProperty Width;
         SerializedProperty Height;
+        SerializedProperty AltSubjectTexture;
         SerializedProperty SourceTexures;
         SerializedProperty ReceivedTexture;
 
+        bool AltFoldout;
         bool Foldout;
 
         void OnEnable()
@@ -28,6 +30,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             SyncTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SyncTexture));
             Width = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Width));
             Height = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Height));
+            AltSubjectTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.AltSubjectTexture));
             SourceTexures = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SourceTexures));
             ReceivedTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.ReceivedTexture));
         }
@@ -40,6 +43,14 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
             EditorGUILayout.PropertyField(Width);
             EditorGUILayout.PropertyField(Height);
+            AltFoldout = EditorGUILayout.Foldout(AltFoldout, "Alternative texture (optional)");
+            if (AltFoldout)
+            {
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    EditorGUILayout.PropertyField(AltSubjectTexture);
+                }
+            }
 
             if (GUILayout.Button("Prepare Objects"))
             {
@@ -95,7 +106,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
             foreach (var syncCamera in syncCameras)
             {
-                var targetTexture = syncCamera.GetComponent<Camera>().targetTexture;
+                var targetTexture = syncCamera.SubjectTexture;
                 if (syncRenderersDict.TryGetValue(targetTexture, out var targetRenderers))
                 {
                     Undo.RecordObject(syncCamera, "set SyncTextureShaderDXTRenderers");

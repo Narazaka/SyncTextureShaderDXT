@@ -18,6 +18,8 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [SerializeField]
         public int Height = 256;
         [SerializeField]
+        public Texture AltSubjectTexture;
+        [SerializeField]
         public CustomRenderTexture[] SourceTexures;
         [SerializeField]
         public CustomRenderTexture ReceivedTexture;
@@ -46,5 +48,9 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
             ReceivedTexture.Update();
             SyncTexture.SyncEnabled = true;
         }
+
+#if UNITY_EDITOR
+        public Texture SubjectTexture => AltSubjectTexture == null ? GetComponent<Camera>().targetTexture : AltSubjectTexture;
+#endif
     }
 }
