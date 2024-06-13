@@ -18,6 +18,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         SerializedProperty Width;
         SerializedProperty Height;
         SerializedProperty AltSubjectTexture;
+        SerializedProperty EnableSyncWhenOnEnable;
         SerializedProperty SourceTexures;
         SerializedProperty ReceivedTexture;
 
@@ -31,6 +32,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             Width = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Width));
             Height = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Height));
             AltSubjectTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.AltSubjectTexture));
+            EnableSyncWhenOnEnable = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.EnableSyncWhenOnEnable));
             SourceTexures = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SourceTexures));
             ReceivedTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.ReceivedTexture));
         }
@@ -43,12 +45,18 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
             EditorGUILayout.PropertyField(Width);
             EditorGUILayout.PropertyField(Height);
+            EditorGUILayout.PropertyField(EnableSyncWhenOnEnable);
+            if (!EnableSyncWhenOnEnable.boolValue)
+            {
+                EditorGUILayout.HelpBox("EnableSyncWhenOnEnable is false, you need to call EnableSync() manually.", MessageType.Info);
+            }
             AltFoldout = EditorGUILayout.Foldout(AltFoldout, "Alternative texture (optional)");
             if (AltFoldout)
             {
                 using (new EditorGUI.IndentLevelScope())
                 {
                     EditorGUILayout.PropertyField(AltSubjectTexture);
+                    EditorGUILayout.HelpBox("If AltSubjectTexture is set, Camera.renderTexture is ignored.", MessageType.Info);
                 }
             }
 

@@ -20,11 +20,21 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [SerializeField]
         public Texture AltSubjectTexture;
         [SerializeField]
+        public bool EnableSyncWhenOnEnable = true;
+        [SerializeField]
         public CustomRenderTexture[] SourceTexures;
         [SerializeField]
         public CustomRenderTexture ReceivedTexture;
 
         void OnEnable()
+        {
+            if (EnableSyncWhenOnEnable)
+            {
+                EnableSync();
+            }
+        }
+
+        public void EnableSync()
         {
             foreach (var renderer in SyncTextureShaderDXTRenderers)
             {
