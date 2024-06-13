@@ -1,6 +1,6 @@
 {
   "name": "net.narazaka.vrchat.sync-texture-shaderdxt",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "displayName": "SyncTextureShaderDXT",
   "description": "Sync ShaderDXT Texture",
   "author": {
