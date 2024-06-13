@@ -1,0 +1,22 @@
+{
+    "name": "SyncTextureShaderDXT.Editor",
+    "rootNamespace": "",
+    "references": [
+        "SyncTexture",
+        "UdonSharp.Editor",
+        "UdonSharp.Runtime",
+        "SyncTextureShaderDXT",
+        "VRC.Udon"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
