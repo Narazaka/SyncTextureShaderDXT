@@ -12,7 +12,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [SerializeField]
         public SyncTextureShaderDXTRenderer[] SyncTextureShaderDXTRenderers;
         [SerializeField]
-        public SyncTexture SyncTexture;
+        public SyncTexture2D SyncTexture;
         [SerializeField]
         public int Width = 512;
         [SerializeField]
@@ -28,6 +28,8 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
             {
                 renderer.Rendered();
             }
+            SyncTexture.SyncEnabled = true;
+            SyncTexture.Source = SourceTexures[SourceTexures.Length - 1];
         }
 
         public void OnPrepare()
@@ -42,6 +44,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         public void OnReceive()
         {
             ReceivedTexture.Update();
+            SyncTexture.SyncEnabled = true;
         }
     }
 }

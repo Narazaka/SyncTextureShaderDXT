@@ -129,7 +129,7 @@ MonoBehaviour:
       Data: 8|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: net.narazaka.vrchat.sync_texture.SyncTexture, SyncTexture
+      Data: net.narazaka.vrchat.sync_texture.SyncTexture2D, SyncTexture
     - Name: 
       Entry: 8
       Data: 

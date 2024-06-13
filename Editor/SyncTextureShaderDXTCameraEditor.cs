@@ -113,6 +113,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     syncTexture.GetPixelsBulkCount = 0;
                     syncTexture.ColorEncoder = colorEncoder;
                     syncTexture.PrepareCallbackAsync = true;
+                    syncTexture.SyncEnabled = false;
                     Undo.RegisterCreatedObjectUndo(go, "create SyncTexture2D8 for camera");
                 }
                 else

@@ -103,7 +103,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
                 var udonBehaviour = UdonSharpEditorUtility.GetBackingUdonBehaviour(syncCamera);
                 var syncTexture = syncTextures.FirstOrDefault(st => st.CallbackListeners.Any(l => l == udonBehaviour));
-                syncTexture.Source = compressCRT;
+                syncTexture.Source = receivedTexture;
                 syncTexture.Target = receivedTexture;
 
                 var basePath = UdonSharp.Updater.UdonSharpLocator.IntermediatePrefabPath;
