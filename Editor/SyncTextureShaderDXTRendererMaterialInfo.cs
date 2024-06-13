@@ -25,7 +25,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             Material == other.Material &&
             TexturePropertyNames.OrderBy(a => a).SequenceEqual(other.TexturePropertyNames.OrderBy(a => a));
 
-        public override int GetHashCode() => System.HashCode.Combine(Material, TexturePropertyNames.OrderBy(a => a).ToArray());
+        public override int GetHashCode() => System.HashCode.Combine(Material);
 
         public static bool operator ==(SyncTextureShaderDXTRendererMaterialInfo left, SyncTextureShaderDXTRendererMaterialInfo right) => EqualityComparer<SyncTextureShaderDXTRendererMaterialInfo>.Default.Equals(left, right);
         public static bool operator !=(SyncTextureShaderDXTRendererMaterialInfo left, SyncTextureShaderDXTRendererMaterialInfo right) => !(left == right);
