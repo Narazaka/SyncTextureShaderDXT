@@ -28,9 +28,9 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            fixed4 frag (v2f_customrendertexture i) : SV_Target
+            float4 frag (v2f_customrendertexture i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.localTexcoord.xy);
+                float4 col = tex2D(_MainTex, i.localTexcoord.xy);
                 return col;
             }
             ENDCG

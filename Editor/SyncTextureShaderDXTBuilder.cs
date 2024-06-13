@@ -32,7 +32,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     name = $"{baseName}_sized",
                     mainTexture = targetTexture,
                 };
-                var sizedCRT = new CustomRenderTexture(syncCamera.Width, syncCamera.Height, RenderTextureFormat.RGB565, RenderTextureReadWrite.Linear)
+                var sizedCRT = new CustomRenderTexture(syncCamera.Width, syncCamera.Height, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear)
                 {
                     name = $"{baseName}_sized",
                     depthStencilFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.None,
