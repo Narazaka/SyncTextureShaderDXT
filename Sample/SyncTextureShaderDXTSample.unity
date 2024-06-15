@@ -1658,6 +1658,8 @@ MonoBehaviour:
   SyncTexture: {fileID: 1069292108}
   Width: 512
   Height: 256
+  AltSubjectTexture: {fileID: 0}
+  EnableSyncWhenOnEnable: 1
   SourceTexures: []
   ReceivedTexture: {fileID: 0}
 --- !u!1 &1334515084
