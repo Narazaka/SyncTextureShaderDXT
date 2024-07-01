@@ -71,7 +71,11 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     material = decompressMaterial,
                     useMipMap = true,
                     autoGenerateMips = true,
-                    initializationMode = CustomRenderTextureUpdateMode.OnDemand,
+                    initializationMode = syncCamera.InitializationMode,
+                    initializationSource = syncCamera.InitializationSource,
+                    initializationColor = syncCamera.InitializationColor,
+                    initializationTexture = syncCamera.InitializationTexture,
+                    initializationMaterial = syncCamera.InitializationMaterial,
                     updateMode = CustomRenderTextureUpdateMode.OnDemand,
                 };
 

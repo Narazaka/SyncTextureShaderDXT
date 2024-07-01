@@ -22,6 +22,16 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [SerializeField]
         public bool EnableSyncWhenOnEnable = true;
         [SerializeField]
+        public CustomRenderTextureUpdateMode InitializationMode = CustomRenderTextureUpdateMode.OnDemand;
+        [SerializeField]
+        public CustomRenderTextureInitializationSource InitializationSource = CustomRenderTextureInitializationSource.TextureAndColor;
+        [SerializeField]
+        public Color InitializationColor = Color.white;
+        [SerializeField]
+        public Texture InitializationTexture;
+        [SerializeField]
+        public Material InitializationMaterial;
+        [SerializeField]
         public CustomRenderTexture[] SourceTexures;
         [SerializeField]
         public CustomRenderTexture ReceivedTexture;

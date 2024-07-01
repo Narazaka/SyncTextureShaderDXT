@@ -19,11 +19,17 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         SerializedProperty Height;
         SerializedProperty AltSubjectTexture;
         SerializedProperty EnableSyncWhenOnEnable;
+        SerializedProperty InitializationMode;
+        SerializedProperty InitializationSource;
+        SerializedProperty InitializationColor;
+        SerializedProperty InitializationTexture;
+        SerializedProperty InitializationMaterial;
         SerializedProperty SourceTexures;
         SerializedProperty ReceivedTexture;
 
         bool AltFoldout;
-        bool Foldout;
+        bool FoldoutRT;
+        bool FoldoutInternal;
 
         void OnEnable()
         {
@@ -33,6 +39,11 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             Height = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Height));
             AltSubjectTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.AltSubjectTexture));
             EnableSyncWhenOnEnable = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.EnableSyncWhenOnEnable));
+            InitializationMode = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationMode));
+            InitializationSource = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationSource));
+            InitializationColor = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationColor));
+            InitializationTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationTexture));
+            InitializationMaterial = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationMaterial));
             SourceTexures = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SourceTexures));
             ReceivedTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.ReceivedTexture));
         }
@@ -68,11 +79,37 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             EditorGUILayout.PropertyField(SyncTextureShaderDXTRenderers, true);
             EditorGUILayout.PropertyField(SyncTexture);
 
-            Foldout = EditorGUILayout.Foldout(Foldout, "internal");
+            FoldoutRT = EditorGUILayout.Foldout(FoldoutRT, "Custom Render Texture Options");
 
             using (new EditorGUI.IndentLevelScope())
             {
-                if (Foldout)
+                if (FoldoutRT)
+                {
+                    EditorGUILayout.PropertyField(InitializationMode);
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        EditorGUILayout.PropertyField(InitializationSource, new GUIContent("Source"));
+                        using (new EditorGUI.IndentLevelScope())
+                        {
+                            if (InitializationSource.enumValueIndex == (int)CustomRenderTextureInitializationSource.TextureAndColor)
+                            {
+                                EditorGUILayout.PropertyField(InitializationColor, new GUIContent("Color"));
+                                EditorGUILayout.PropertyField(InitializationTexture, new GUIContent("Texture"));
+                            }
+                            else
+                            {
+                                EditorGUILayout.PropertyField(InitializationMaterial, new GUIContent("Material"));
+                            }
+                        }
+                    }
+                }
+            }
+
+            FoldoutInternal = EditorGUILayout.Foldout(FoldoutInternal, "internal");
+
+            using (new EditorGUI.IndentLevelScope())
+            {
+                if (FoldoutInternal)
                 {
                     EditorGUILayout.PropertyField(SourceTexures, true);
                     EditorGUILayout.PropertyField(ReceivedTexture);
