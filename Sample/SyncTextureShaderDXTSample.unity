@@ -701,6 +701,7 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 836677096}
   SyncTextureManager: {fileID: 641810497}
+  ForceSyncOnStart: 0
   Delay: 8
 --- !u!4 &836677098
 Transform:
@@ -1660,6 +1661,11 @@ MonoBehaviour:
   Height: 256
   AltSubjectTexture: {fileID: 0}
   EnableSyncWhenOnEnable: 1
+  InitializationMode: 0
+  InitializationSource: 0
+  InitializationColor: {r: 1, g: 1, b: 1, a: 1}
+  InitializationTexture: {fileID: 0}
+  InitializationMaterial: {fileID: 0}
   SourceTexures: []
   ReceivedTexture: {fileID: 0}
 --- !u!1 &1334515084
