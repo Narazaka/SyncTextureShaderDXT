@@ -34,9 +34,12 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         {
             if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(target)) return;
 
+            EditorGUILayout.HelpBox("This component has no sync features so you can use any Synchronization Method.\n[None is recommended if other components are None]", MessageType.Info);
+
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(TexturePropertyNames, new GUIContent(TexturePropertyNames.displayName + " (optional)"), true);
+            EditorGUILayout.HelpBox("To set a texture other than MainTexture, specify TexturePropertyNames.", MessageType.Info);
             EditorGUILayout.PropertyField(AlwaysReceivedMaterial, new GUIContent(AlwaysReceivedMaterial.displayName + " (for debug)"));
 
             Foldout = EditorGUILayout.Foldout(Foldout, "internal");

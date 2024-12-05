@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using VRC.Udon;
 using UdonSharpEditor;
 using net.narazaka.vrchat.sync_texture.color_encoder;
+using net.narazaka.vrchat.sync_texture.editor;
 
 namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 {
@@ -14,11 +15,13 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
     public class SyncTextureShaderDXTCameraEditor : UnityEditor.Editor
     {
         SerializedProperty SyncTextureShaderDXTRenderers;
+        SerializedProperty SyncTextureManager;
         SerializedProperty SyncTexture;
         SerializedProperty Width;
         SerializedProperty Height;
         SerializedProperty AltSubjectTexture;
         SerializedProperty EnableSyncWhenOnEnable;
+        SerializedProperty SyncWhenOnPostRender;
         SerializedProperty InitializationMode;
         SerializedProperty InitializationSource;
         SerializedProperty InitializationColor;
@@ -34,11 +37,15 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         void OnEnable()
         {
             SyncTextureShaderDXTRenderers = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SyncTextureShaderDXTRenderers));
+            SyncTextureManager = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SyncTextureManager));
             SyncTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SyncTexture));
             Width = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Width));
             Height = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.Height));
             AltSubjectTexture = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.AltSubjectTexture));
+#pragma warning disable CS0618 // obsolete
             EnableSyncWhenOnEnable = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.EnableSyncWhenOnEnable));
+#pragma warning restore CS0618
+            SyncWhenOnPostRender = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SyncWhenOnPostRender));
             InitializationMode = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationMode));
             InitializationSource = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationSource));
             InitializationColor = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationColor));
@@ -52,14 +59,17 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         {
             if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(target)) return;
 
+            EditorGUILayout.HelpBox("This component has no sync features so you can use any Synchronization Method.\n[None is recommended if other components are None]", MessageType.Info);
+
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(Width);
             EditorGUILayout.PropertyField(Height);
-            EditorGUILayout.PropertyField(EnableSyncWhenOnEnable);
-            if (!EnableSyncWhenOnEnable.boolValue)
+            EditorGUILayout.PropertyField(EnableSyncWhenOnEnable, new GUIContent("Sync When On Disable"));
+            EditorGUILayout.PropertyField(SyncWhenOnPostRender);
+            if (!EnableSyncWhenOnEnable.boolValue && !SyncWhenOnPostRender.boolValue)
             {
-                EditorGUILayout.HelpBox("EnableSyncWhenOnEnable is false, you need to call EnableSync() manually.", MessageType.Info);
+                EditorGUILayout.HelpBox($"{nameof(SyncTextureShaderDXTCamera.SyncWhenOnDisable)} and {nameof(SyncTextureShaderDXTCamera.SyncWhenOnPostRender)} is false, you need to call {nameof(SyncTextureShaderDXTCamera.Rendered)}() manually.", MessageType.Info);
             }
             AltFoldout = EditorGUILayout.Foldout(AltFoldout, "Alternative texture (optional)");
             if (AltFoldout)
@@ -70,6 +80,11 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     EditorGUILayout.HelpBox("If AltSubjectTexture is set, Camera.renderTexture is ignored.", MessageType.Info);
                 }
             }
+            var syncCamera = target as SyncTextureShaderDXTCamera;
+            if (syncCamera.SubjectTexture == null)
+            {
+                EditorGUILayout.HelpBox("No texture exists!\nPlease set the Target Texture of the camera or set Alt Subject Texture", MessageType.Error);
+            }
 
             if (GUILayout.Button("Prepare Objects"))
             {
@@ -77,6 +92,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             }
 
             EditorGUILayout.PropertyField(SyncTextureShaderDXTRenderers, true);
+            EditorGUILayout.PropertyField(SyncTextureManager);
             EditorGUILayout.PropertyField(SyncTexture);
 
             FoldoutRT = EditorGUILayout.Foldout(FoldoutRT, "Custom Render Texture Options");
@@ -121,6 +137,14 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
         void PrepareObjects()
         {
+            var syncCameras = Object.FindObjectsByType<SyncTextureShaderDXTCamera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var noSubjectSyncCameras = syncCameras.Where(sc => sc.SubjectTexture == null).ToArray();
+            if (noSubjectSyncCameras.Length > 0)
+            {
+                EditorUtility.DisplayDialog("Error", $"Invalid {nameof(SyncTextureShaderDXTCamera)} exists! Please set the Target Texture of the camera or set Alt Subject Texture.\n[{string.Join(", ", noSubjectSyncCameras.Select(syncCamera => syncCamera.name))}]", "OK");
+                EditorGUIUtility.PingObject(noSubjectSyncCameras[0]);
+                return;
+            }
             var syncTextureManager = Object.FindObjectsByType<SyncTextureManager>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).FirstOrDefault();
             if (syncTextureManager == null)
             {
@@ -137,7 +161,6 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             }
 
             var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            var syncCameras = Object.FindObjectsByType<SyncTextureShaderDXTCamera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             var syncRenderersDict = syncRenderers.GroupBy(sr => SyncTextureShaderDXTRendererMaterialInfo.Get(sr).Textures.First()).ToDictionary(g => g.Key, g => g.ToArray());
             
             var syncTextureShaderDXTRoot = SceneManager.GetActiveScene().GetRootGameObjects().FirstOrDefault(go => go.name == "SyncTextureShaderDXTRoot");
@@ -169,7 +192,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     syncTexture.GetPixelsBulkCount = 0;
                     syncTexture.ColorEncoder = colorEncoder;
                     syncTexture.PrepareCallbackAsync = true;
-                    syncTexture.SyncEnabled = false;
+                    // syncTexture.SyncEnabled = false;
                     Undo.RegisterCreatedObjectUndo(go, "create SyncTexture2D8 for camera");
                 }
                 else
@@ -181,6 +204,22 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     Undo.RecordObject(syncTexture, "set SyncCamera SyncTexture");
                     syncCamera.SyncTexture = syncTexture;
                 }
+                if (syncCamera.SyncTextureManager != syncTextureManager)
+                {
+                    Undo.RecordObject(syncTexture, "set SyncCamera SyncTextureManager");
+                    syncCamera.SyncTextureManager = syncTextureManager;
+                }
+
+                // set data list
+                var tempTexture = RenderTexture.GetTemporary(syncCamera.Width / 2, syncCamera.Height / 2);
+                syncTexture.Source = tempTexture;
+                var chunkCount = syncTexture.ChunkCount;
+                RenderTexture.ReleaseTemporary(tempTexture);
+                syncTexture.Source = null;
+                var serializedObject = new SerializedObject(syncTexture);
+                serializedObject.Update();
+                SyncTextureEditor.SetDataList(serializedObject.FindProperty("DataList"), chunkCount);
+                serializedObject.ApplyModifiedProperties();
             }
 
             foreach (var syncTexture in unusedSyncTextures)
