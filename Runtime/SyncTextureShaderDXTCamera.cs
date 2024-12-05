@@ -74,6 +74,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [PublicAPI]
         public void Sync()
         {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.Sync");
             Rendered();
             SyncTextureManager.RequestSyncTexture(SyncTexture);
         }
@@ -81,6 +82,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [PublicAPI]
         public void Rendered()
         {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.Rendered");
             foreach (var renderer in SyncTextureShaderDXTRenderers)
             {
                 renderer.Rendered();
@@ -91,6 +93,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
 
         public void OnPrepare()
         {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.OnPrepare");
             foreach (var source in SourceTexures)
             {
                 source.Update();
@@ -100,6 +103,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
 
         public void OnReceiveApplied()
         {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.OnReceiveApplied");
             ReceivedTexture.Update();
         }
 
