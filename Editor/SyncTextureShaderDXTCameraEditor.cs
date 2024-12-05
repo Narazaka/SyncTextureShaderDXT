@@ -22,6 +22,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         SerializedProperty AltSubjectTexture;
         SerializedProperty EnableSyncWhenOnEnable;
         SerializedProperty SyncWhenOnPostRender;
+        SerializedProperty MarkRenderedWhenOnEnable;
         SerializedProperty InitializationMode;
         SerializedProperty InitializationSource;
         SerializedProperty InitializationColor;
@@ -46,6 +47,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             EnableSyncWhenOnEnable = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.EnableSyncWhenOnEnable));
 #pragma warning restore CS0618
             SyncWhenOnPostRender = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.SyncWhenOnPostRender));
+            MarkRenderedWhenOnEnable = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.MarkRenderedWhenOnEnable));
             InitializationMode = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationMode));
             InitializationSource = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationSource));
             InitializationColor = serializedObject.FindProperty(nameof(SyncTextureShaderDXTCamera.InitializationColor));
@@ -71,6 +73,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
             {
                 EditorGUILayout.HelpBox($"{nameof(SyncTextureShaderDXTCamera.SyncWhenOnDisable)} and {nameof(SyncTextureShaderDXTCamera.SyncWhenOnPostRender)} is false, you need to call {nameof(SyncTextureShaderDXTCamera.Rendered)}() manually.", MessageType.Info);
             }
+            EditorGUILayout.PropertyField(MarkRenderedWhenOnEnable);
             AltFoldout = EditorGUILayout.Foldout(AltFoldout, "Alternative texture (optional)");
             if (AltFoldout)
             {

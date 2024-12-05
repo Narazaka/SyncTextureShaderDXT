@@ -31,6 +31,8 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [SerializeField]
         public bool SyncWhenOnPostRender;
         [SerializeField]
+        public bool MarkRenderedWhenOnEnable = true;
+        [SerializeField]
         public CustomRenderTextureUpdateMode InitializationMode = CustomRenderTextureUpdateMode.OnDemand;
         [SerializeField]
         public CustomRenderTextureInitializationSource InitializationSource = CustomRenderTextureInitializationSource.TextureAndColor;
@@ -45,11 +47,19 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         [SerializeField]
         public CustomRenderTexture ReceivedTexture;
 
+        void OnEnable()
+        {
+            if (MarkRenderedWhenOnEnable)
+            {
+                Rendered();
+            }
+        }
+
         void OnDisable()
         {
             if (SyncWhenOnDisable)
             {
-                Rendered();
+                Sync();
             }
         }
 
@@ -57,8 +67,15 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         {
             if (SyncWhenOnPostRender)
             {
-                Rendered();
+                Sync();
             }
+        }
+
+        [PublicAPI]
+        public void Sync()
+        {
+            Rendered();
+            SyncTextureManager.RequestSyncTexture(SyncTexture);
         }
 
         [PublicAPI]
@@ -70,7 +87,6 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
             }
             SyncTexture.ReceiveEnabled = false;
             SyncTexture.Source = SourceTexures[SourceTexures.Length - 1];
-            SyncTextureManager.RequestSyncTexture(SyncTexture);
         }
 
         public void OnPrepare()
