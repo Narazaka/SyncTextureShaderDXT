@@ -12,7 +12,7 @@
   "url" : "https://github.com/Narazaka/SyncTextureShaderDXT.git",
   "vpmDependencies": {
     "com.vrchat.worlds": ">=3.0.9",
-    "net.narazaka.vrchat.sync-texture": ">= 3.0.0-a < 4.0.0-a",
+    "net.narazaka.vrchat.sync-texture": ">= 3.0.0-beta.5 < 4.0.0-a",
     "net.narazaka.unity.shaderdxt": ">= 1.0.0 < 2.0.0-a"
   }
 }
