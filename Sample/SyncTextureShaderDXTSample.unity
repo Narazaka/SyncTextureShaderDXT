@@ -1166,6 +1166,8 @@ MonoBehaviour:
   BulkRateOfNetworkSpec: 0.8
   SyncInterval: 1
   PrepareCallbackAsync: 1
+  TextureWidth: 256
+  TextureHeight: 128
   Source: {fileID: 0}
   Target: {fileID: 0}
   GetPixelsBulkCount: 0
@@ -2298,8 +2300,8 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 1332321041}
   SyncTextureShaderDXTRenderers:
   - {fileID: 1353167777}
-  - {fileID: 1675301822}
   - {fileID: 800070614}
+  - {fileID: 1675301822}
   SyncTextureManager: {fileID: 641810497}
   SyncTexture: {fileID: 1069292108}
   Width: 512

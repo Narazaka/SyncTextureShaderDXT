@@ -214,14 +214,11 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                 }
 
                 // set data list
-                var tempTexture = RenderTexture.GetTemporary(syncCamera.Width / 2, syncCamera.Height / 2);
-                syncTexture.Source = tempTexture;
-                var chunkCount = syncTexture.ChunkCount;
-                RenderTexture.ReleaseTemporary(tempTexture);
-                syncTexture.Source = null;
                 var serializedObject = new SerializedObject(syncTexture);
                 serializedObject.Update();
-                SyncTextureEditor.SetDataList(serializedObject.FindProperty("DataList"), chunkCount);
+                serializedObject.FindProperty("TextureWidth").intValue = syncCamera.Width / 2;
+                serializedObject.FindProperty("TextureHeight").intValue = syncCamera.Height / 2;
+                SyncTextureEditor.SetDataList(serializedObject.FindProperty("DataList"), SyncTextureEditor.GetSyncTextureStat(serializedObject).ChunkCount);
                 serializedObject.ApplyModifiedProperties();
             }
 
