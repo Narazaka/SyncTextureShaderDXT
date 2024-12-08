@@ -10,6 +10,7 @@
   "license": "Zlib",
   "type": "tool",
   "url" : "https://github.com/Narazaka/SyncTextureShaderDXT.git",
+  "unity": "2022.3",
   "vpmDependencies": {
     "com.vrchat.worlds": ">=3.0.9",
     "net.narazaka.vrchat.sync-texture": ">= 3.0.0-beta.5 < 4.0.0-a",
