@@ -12,7 +12,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
     public class SyncTextureShaderDXTCamera : UdonSharpBehaviour
     {
         [SerializeField]
-        public SyncTextureShaderDXTRenderer[] SyncTextureShaderDXTRenderers;
+        public SyncTextureShaderDXTRendererBase[] SyncTextureShaderDXTRenderers;
         [SerializeField]
         public SyncTextureManager SyncTextureManager;
         [SerializeField]

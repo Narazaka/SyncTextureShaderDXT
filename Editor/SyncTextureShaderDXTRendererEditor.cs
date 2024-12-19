@@ -10,7 +10,7 @@ using net.narazaka.vrchat.sync_texture.color_encoder;
 
 namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 {
-    [CustomEditor(typeof(SyncTextureShaderDXTRenderer))]
+    [CustomEditor(typeof(SyncTextureShaderDXTRendererBase), true)]
     public class SyncTextureShaderDXTRendererEditor : Editor
     {
         SerializedProperty SyncTextureManager;
@@ -23,11 +23,11 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
         void OnEnable()
         {
-            SyncTextureManager = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.SyncTextureManager));
-            Original = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.Original));
-            Received = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.Received));
-            TexturePropertyNames = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.TexturePropertyNames));
-            AlwaysReceivedMaterial = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRenderer.AlwaysReceivedMaterial));
+            SyncTextureManager = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRendererBase.SyncTextureManager));
+            Original = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRendererBase.Original));
+            Received = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRendererBase.Received));
+            TexturePropertyNames = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRendererBase.TexturePropertyNames));
+            AlwaysReceivedMaterial = serializedObject.FindProperty(nameof(SyncTextureShaderDXTRendererBase.AlwaysReceivedMaterial));
         }
 
         public override void OnInspectorGUI()

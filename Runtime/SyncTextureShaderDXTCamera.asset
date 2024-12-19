@@ -62,7 +62,7 @@ MonoBehaviour:
       Data: 3|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: net.narazaka.vrchat.sync_texture_shaderdxt.SyncTextureShaderDXTRenderer[],
+      Data: net.narazaka.vrchat.sync_texture_shaderdxt.SyncTextureShaderDXTRendererBase[],
         SyncTextureShaderDXT
     - Name: 
       Entry: 8

@@ -163,7 +163,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                 Undo.RegisterCreatedObjectUndo(go, "create ColorEncoderRG88");
             }
 
-            var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRendererBase>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             var syncRenderersDict = syncRenderers.GroupBy(sr => SyncTextureShaderDXTRendererMaterialInfo.Get(sr).Textures.First()).ToDictionary(g => g.Key, g => g.ToArray());
             
             var syncTextureShaderDXTRoot = SceneManager.GetActiveScene().GetRootGameObjects().FirstOrDefault(go => go.name == "SyncTextureShaderDXTRoot");
