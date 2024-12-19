@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "SyncTexture",
+        "SyncTexture.Editor",
         "UdonSharp.Editor",
         "UdonSharp.Runtime",
         "SyncTextureShaderDXT",

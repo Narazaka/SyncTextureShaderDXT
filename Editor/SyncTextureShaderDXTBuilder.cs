@@ -17,7 +17,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
         public void OnProcessScene(Scene scene, BuildReport report)
         {
             var syncTextureManager = Object.FindObjectsByType<SyncTextureManager>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).First();
-            var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var syncRenderers = Object.FindObjectsByType<SyncTextureShaderDXTRendererBase>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             var syncCameras = Object.FindObjectsByType<SyncTextureShaderDXTCamera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             var syncRenderersDict = syncRenderers.GroupBy(sr => SyncTextureShaderDXTRendererMaterialInfo.Get(sr).Textures.First()).ToDictionary(g => g.Key, g => g.ToArray());
             var syncTextures = Object.FindObjectsByType<SyncTexture2D8>(FindObjectsInactive.Include, FindObjectsSortMode.None);
@@ -100,7 +100,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
                     foreach (var targetRenderer in targetRenderers)
                     {
                         targetRenderer.SyncTextureManager = syncTextureManager;
-                        targetRenderer.Original = targetRenderer.GetComponent<Renderer>().sharedMaterial;
+                        targetRenderer.Original = targetRenderer.GetSerializedMaterial();
                         targetRenderer.Received = decompressResultMaterialMap[SyncTextureShaderDXTRendererMaterialInfo.Get(targetRenderer)];
                     }
                 }

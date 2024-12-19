@@ -1,4 +1,6 @@
+using JetBrains.Annotations;
 using net.narazaka.vrchat.sync_texture;
+using System;
 using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
@@ -10,7 +12,9 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
     public class SyncTextureShaderDXTCamera : UdonSharpBehaviour
     {
         [SerializeField]
-        public SyncTextureShaderDXTRenderer[] SyncTextureShaderDXTRenderers;
+        public SyncTextureShaderDXTRendererBase[] SyncTextureShaderDXTRenderers;
+        [SerializeField]
+        public SyncTextureManager SyncTextureManager;
         [SerializeField]
         public SyncTexture2D SyncTexture;
         [SerializeField]
@@ -19,8 +23,15 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
         public int Height = 256;
         [SerializeField]
         public Texture AltSubjectTexture;
+        [SerializeField, Obsolete("Use SyncWhenOnDisable")]
+        public bool EnableSyncWhenOnEnable = true; // for compatibility
+#pragma warning disable CS0618 // obsolete
+        public bool SyncWhenOnDisable { get => EnableSyncWhenOnEnable; set => EnableSyncWhenOnEnable = value; }
+#pragma warning restore CS0618
         [SerializeField]
-        public bool EnableSyncWhenOnEnable = true;
+        public bool SyncWhenOnPostRender;
+        [SerializeField]
+        public bool MarkRenderedWhenOnEnable = true;
         [SerializeField]
         public CustomRenderTextureUpdateMode InitializationMode = CustomRenderTextureUpdateMode.OnDemand;
         [SerializeField]
@@ -38,24 +49,51 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
 
         void OnEnable()
         {
-            if (EnableSyncWhenOnEnable)
+            if (MarkRenderedWhenOnEnable)
             {
-                EnableSync();
+                Rendered();
             }
         }
 
-        public void EnableSync()
+        void OnDisable()
         {
+            if (SyncWhenOnDisable)
+            {
+                Sync();
+            }
+        }
+
+        void OnPostRender()
+        {
+            if (SyncWhenOnPostRender)
+            {
+                Sync();
+            }
+        }
+
+        [PublicAPI]
+        public void Sync()
+        {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.Sync");
+            Rendered();
+            SyncTextureManager.RequestSyncTexture(SyncTexture);
+        }
+
+        [PublicAPI]
+        public void Rendered()
+        {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.Rendered");
             foreach (var renderer in SyncTextureShaderDXTRenderers)
             {
                 renderer.Rendered();
             }
-            SyncTexture.SyncEnabled = true;
+            SyncTexture.ReceiveEnabled = false;
             SyncTexture.Source = SourceTexures[SourceTexures.Length - 1];
         }
 
         public void OnPrepare()
         {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.OnPrepare");
             foreach (var source in SourceTexures)
             {
                 source.Update();
@@ -63,10 +101,10 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
             SyncTexture.SendCustomEventDelayedFrames(nameof(SyncTexture.OnPrepared), 2);
         }
 
-        public void OnReceive()
+        public void OnReceiveApplied()
         {
+            Debug.Log("[SyncTextureShaderDXT] SyncTextureShaderDXTCamera.OnReceiveApplied");
             ReceivedTexture.Update();
-            SyncTexture.SyncEnabled = true;
         }
 
 #if UNITY_EDITOR

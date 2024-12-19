@@ -7,8 +7,8 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt.editor
 
     public class SyncTextureShaderDXTRendererMaterialInfo : System.IEquatable<SyncTextureShaderDXTRendererMaterialInfo>
     {
-        public static SyncTextureShaderDXTRendererMaterialInfo Get(SyncTextureShaderDXTRenderer syncTextureShaderDXTRenderer) =>
-            new SyncTextureShaderDXTRendererMaterialInfo(syncTextureShaderDXTRenderer.GetComponent<Renderer>().sharedMaterial, syncTextureShaderDXTRenderer.TexturePropertyNames);
+        public static SyncTextureShaderDXTRendererMaterialInfo Get(SyncTextureShaderDXTRendererBase syncTextureShaderDXTRenderer) =>
+            new SyncTextureShaderDXTRendererMaterialInfo(syncTextureShaderDXTRenderer.GetSerializedMaterial(), syncTextureShaderDXTRenderer.TexturePropertyNames);
         public readonly Material Material;
         public readonly string[] TexturePropertyNames;
 

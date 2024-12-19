@@ -1,6 +1,6 @@
 {
   "name": "net.narazaka.vrchat.sync-texture-shaderdxt",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.5",
   "displayName": "SyncTextureShaderDXT",
   "description": "Sync ShaderDXT Texture",
   "author": {
@@ -10,9 +10,10 @@
   "license": "Zlib",
   "type": "tool",
   "url" : "https://github.com/Narazaka/SyncTextureShaderDXT.git",
+  "unity": "2022.3",
   "vpmDependencies": {
     "com.vrchat.worlds": ">=3.0.9",
-    "net.narazaka.vrchat.sync-texture": ">= 2.0.0-a < 3.0.0-a",
+    "net.narazaka.vrchat.sync-texture": ">= 3.0.0-beta.5 < 4.0.0-a",
     "net.narazaka.unity.shaderdxt": ">= 1.0.0 < 2.0.0-a"
   }
 }
