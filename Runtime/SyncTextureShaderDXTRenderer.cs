@@ -41,10 +41,7 @@ namespace net.narazaka.vrchat.sync_texture_shaderdxt
 
         void SetMaterial()
         {
-            if (!Networking.IsOwner(SyncTextureManager.gameObject))
-            {
-                GetComponent<Renderer>().sharedMaterial = !AlwaysReceivedMaterial && IsRendered ? Original : Received;
-            }
+            GetComponent<Renderer>().sharedMaterial = !AlwaysReceivedMaterial && IsRendered ? Original : Received;
         }
     }
 }
